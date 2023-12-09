@@ -13,7 +13,7 @@ Backend code for an e-commerce site, built with Node.js, featuring Sequelize and
 
 ### Video Example
 
-[View on Google Drive](https://drive.google.com/file/d/14baRnB8HFAkfW86dKOOm1OBXjD74ICZG/view)
+[View on Google Drive](https://drive.google.com/file/d/148Yrv3PPmpZHhLizKqsZyOgYpyBQROBn/view)
 
 ### Repository Link
 
