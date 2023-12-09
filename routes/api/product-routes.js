@@ -142,6 +142,11 @@ router.delete('/:id', async (req, res) => {
     if (!singleProductData) {
       res.status(404).end();
     } else {
+      await ProductTag.destroy({
+        where: {
+          product_id: req.params.id
+        }
+      });
       await singleProductData.destroy();
       res.status(200).json(singleProductData);
     }

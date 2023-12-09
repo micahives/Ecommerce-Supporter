@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const { Category, Product } = require('../../models');
+const { Category, Product, ProductTag } = require('../../models');
+const { Op } = require('sequelize');
 
 // The `/api/categories` endpoint
 
@@ -60,8 +61,8 @@ router.put('/:id', async (req, res) => {
     if (!singleCategoryData) {
       res.status(404).end();
     } else {
-      const { name } = req.body;
-      await singleCategoryData.update({ name });
+      const { category_name } = req.body;
+      await singleCategoryData.update({ category_name });
       res.status(200).json(singleCategoryData);
     }
   } catch (err) {
@@ -78,6 +79,24 @@ router.delete('/:id', async (req, res) => {
     if (!singleCategoryData) {
       res.status(404).end();
     } else {
+      const productsToDelete = await Product.findAll({
+        where: { category_id: req.params.id },
+      });
+
+      const productIdsToDelete = productsToDelete.map(product => product.id);
+
+      await ProductTag.destroy({
+        where: {
+          product_id: {
+            [Op.in]: productsToDelete.map(product => product.id.toString()),
+          },
+        },
+      });
+
+      for (const product of productsToDelete) {
+        await product.destroy();
+      }
+
       await singleCategoryData.destroy();
       res.status(200).json(singleCategoryData);
     }

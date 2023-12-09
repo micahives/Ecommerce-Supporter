@@ -37,9 +37,9 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   // create a new tag
   try {
-    const { name } = req.body;
+    const { tag_name } = req.body;
     const tagObj = await Tag.create({
-      name,
+      tag_name,
     });
 
     res.status(200).json(tagObj);
@@ -58,8 +58,8 @@ router.put('/:id', async (req, res) => {
     if (!singleTagData) {
       res.status(404).end();
     } else {
-      const { name } = req.body;
-      await singleTagData.update({ name });
+      const { tag_name } = req.body;
+      await singleTagData.update({ tag_name });
       res.status(200).json(singleTagData);
     }
   } catch (err) {
