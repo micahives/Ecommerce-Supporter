@@ -35,11 +35,14 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   // create a new category
+  console.log(req.body);
   try {
-    const { name } = req.body;
-    const categoryObj = await Category.create({
-      name,
-    });
+    const { category_name } = req.body;
+    console.log(category_name);
+    if (!category_name) {
+      res.status(404).end();
+    }
+    const categoryObj = await Category.create({ category_name });
 
     res.status(200).json(categoryObj);
 
